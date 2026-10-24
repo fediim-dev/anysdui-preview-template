@@ -1,0 +1,70 @@
+name: bump-anysdui
+
+# Moves the AnySDUI pin to a release: rewrites anysdui.version and anysdui.sourceCommit in
+# gradle.properties and opens a pull request. Started by anysdui-kmp when a release is tagged
+# (repository_dispatch, type anysdui-release, payload version and commit) or by hand.
+#
+# A pull request opened with GITHUB_TOKEN does not start the build workflow: run it by hand on the
+# bump pull request (README, "Bumping AnySDUI").
+on:
+  repository_dispatch:
+    types: [ anysdui-release ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: AnySDUI release version, for example 0.2.0
+        required: true
+        type: string
+      commit:
+        description: The 40-character commit of the release tag
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  bump:
+    name: Open the bump pull request
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: true
+
+      # The values reach the script only through env, and are checked here before use.
+      - name: Rewrite the pin and open the pull request
+        env:
+          DISPATCH_VERSION: ${{ github.event.client_payload.version }}
+          DISPATCH_COMMIT: ${{ github.event.client_payload.commit }}
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_COMMIT: ${{ inputs.commit }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -eu
+          version="${INPUT_VERSION:-$DISPATCH_VERSION}"
+          commit="${INPUT_COMMIT:-$DISPATCH_COMMIT}"
+          if ! printf '%s' "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "version is not MAJOR.MINOR.PATCH" >&2
+            exit 1
+          fi
+          if ! printf '%s' "$commit" | grep -Eq '^[0-9a-f]{40}$'; then
+            echo "commit is not a 40-character lower-case hex SHA" >&2
+            exit 1
+          fi
+          branch="bump-anysdui-$version"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          sed -i "s/^anysdui\.version=.*/anysdui.version=$version/" gradle.properties
+          sed -i "s/^anysdui\.sourceCommit=.*/anysdui.sourceCommit=$commit/" gradle.properties
+          git add gradle.properties
+          git commit -m "chore: bump AnySDUI to $version"
+          git push --set-upstream origin "$branch"
+          gh pr create --base main --head "$branch" \
+            --title "chore: bump AnySDUI to $version" \
+            --body "Moves the AnySDUI pin to $version. Run the build workflow by hand on this pull request: a pull request opened with GITHUB_TOKEN does not start it."
