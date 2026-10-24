@@ -1,0 +1,290 @@
+[
+  {
+    "id": "root",
+    "component": "Column",
+    "content": [
+      "n108_10",
+      "n108_11",
+      "n108_12",
+      "n108_13",
+      "n108_14",
+      "n108_15",
+      "n108_16",
+      "n108_17",
+      "n108_50",
+      "n108_51"
+    ],
+    "spacing": 8,
+    "verticalArrangement": "top",
+    "horizontalAlignment": "start",
+    "catalogId": "urn:anysdui:compose-foundation:1.12.0"
+  },
+  {
+    "id": "n108_10",
+    "component": "Column",
+    "content": [
+      "n108_30"
+    ],
+    "spacing": 0,
+    "verticalArrangement": "top",
+    "horizontalAlignment": "start",
+    "modifier": [
+      {
+        "type": "clickable",
+        "action": {
+          "event": {
+            "name": "anysdui.navigate",
+            "context": {
+              "targetFrameId": "n100_1"
+            }
+          }
+        }
+      }
+    ],
+    "catalogId": "urn:anysdui:compose-foundation:1.12.0"
+  },
+  {
+    "id": "n108_30",
+    "component": "Text",
+    "text": "Go rule/instance",
+    "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
+  },
+  {
+    "id": "n108_11",
+    "component": "Column",
+    "content": [
+      "n108_31"
+    ],
+    "spacing": 0,
+    "verticalArrangement": "top",
+    "horizontalAlignment": "start",
+    "modifier": [
+      {
+        "type": "clickable",
+        "action": {
+          "event": {
+            "name": "anysdui.navigate",
+            "context": {
+              "targetFrameId": "n101_1"
+            }
+          }
+        }
+      }
+    ],
+    "catalogId": "urn:anysdui:compose-foundation:1.12.0"
+  },
+  {
+    "id": "n108_31",
+    "component": "Text",
+    "text": "Go rule/auto-layout",
+    "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
+  },
+  {
+    "id": "n108_12",
+    "component": "Column",
+    "content": [
+      "n108_32"
+    ],
+    "spacing": 0,
+    "verticalArrangement": "top",
+    "horizontalAlignment": "start",
+    "modifier": [
+      {
+        "type": "clickable",
+        "action": {
+          "event": {
+            "name": "anysdui.navigate",
+            "context": {
+              "targetFrameId": "n102_1"
+            }
+          }
+        }
+      }
+    ],
+    "catalogId": "urn:anysdui:compose-foundation:1.12.0"
+  },
+  {
+    "id": "n108_32",
+    "component": "Text",
+    "text": "Go rule/text",
+    "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
+  },
+  {
+    "id": "n108_13",
+    "component": "Column",
+    "content": [
+      "n108_33"
+    ],
+    "spacing": 0,
+    "verticalArrangement": "top",
+    "horizontalAlignment": "start",
+    "modifier": [
+      {
+        "type": "clickable",
+        "action": {
+          "event": {
+            "name": "anysdui.navigate",
+            "context": {
+              "targetFrameId": "n103_1"
+            }
+          }
+        }
+      }
+    ],
+    "catalogId": "urn:anysdui:compose-foundation:1.12.0"
+  },
+  {
+    "id": "n108_33",
+    "component": "Text",
+    "text": "Go rule/token",
+    "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
+  },
+  {
+    "id": "n108_14",
+    "component": "Column",
+    "content": [
+      "n108_34"
+    ],
+    "spacing": 0,
+    "verticalArrangement": "top",
+    "horizontalAlignment": "start",
+    "modifier": [
+      {
+        "type": "clickable",
+        "action": {
+          "event": {
+            "name": "anysdui.navigate",
+            "context": {
+              "targetFrameId": "n104_1"
+            }
+          }
+        }
+      }
+    ],
+    "catalogId": "urn:anysdui:compose-foundation:1.12.0"
+  },
+  {
+    "id": "n108_34",
+    "component": "Text",
+    "text": "Go rule/list",
+    "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
+  },
+  {
+    "id": "n108_15",
+    "component": "Column",
+    "content": [
+      "n108_35"
+    ],
+    "spacing": 0,
+    "verticalArrangement": "top",
+    "horizontalAlignment": "start",
+    "modifier": [
+      {
+        "type": "clickable",
+        "action": {
+          "event": {
+            "name": "anysdui.navigate",
+            "context": {
+              "targetFrameId": "n105_1"
+            }
+          }
+        }
+      }
+    ],
+    "catalogId": "urn:anysdui:compose-foundation:1.12.0"
+  },
+  {
+    "id": "n108_35",
+    "component": "Text",
+    "text": "Go rule/composite",
+    "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
+  },
+  {
+    "id": "n108_16",
+    "component": "Column",
+    "content": [
+      "n108_36"
+    ],
+    "spacing": 0,
+    "verticalArrangement": "top",
+    "horizontalAlignment": "start",
+    "modifier": [
+      {
+        "type": "clickable",
+        "action": {
+          "event": {
+            "name": "anysdui.navigate",
+            "context": {
+              "targetFrameId": "n106_1"
+            }
+          }
+        }
+      }
+    ],
+    "catalogId": "urn:anysdui:compose-foundation:1.12.0"
+  },
+  {
+    "id": "n108_36",
+    "component": "Text",
+    "text": "Go rule/image",
+    "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
+  },
+  {
+    "id": "n108_17",
+    "component": "Column",
+    "content": [
+      "n108_37"
+    ],
+    "spacing": 0,
+    "verticalArrangement": "top",
+    "horizontalAlignment": "start",
+    "modifier": [
+      {
+        "type": "clickable",
+        "action": {
+          "event": {
+            "name": "anysdui.navigate",
+            "context": {
+              "targetFrameId": "n107_1"
+            }
+          }
+        }
+      }
+    ],
+    "catalogId": "urn:anysdui:compose-foundation:1.12.0"
+  },
+  {
+    "id": "n108_37",
+    "component": "Text",
+    "text": "Go rule/navigation-target",
+    "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
+  },
+  {
+    "id": "n108_50",
+    "component": "Text",
+    "text": "no navigation",
+    "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json"
+  },
+  {
+    "id": "n108_51",
+    "component": "Box",
+    "content": [
+      "n108_51__img"
+    ],
+    "modifier": [
+      {
+        "type": "size",
+        "width": 10,
+        "height": 10
+      }
+    ],
+    "catalogId": "urn:anysdui:compose-foundation:1.12.0"
+  },
+  {
+    "id": "n108_51__img",
+    "component": "Image",
+    "catalogId": "https://a2ui.org/specification/v1_0/catalogs/basic/catalog.json",
+    "url": "/playground/images/AAAAAAAAAAAAAAAAAAAAAA/f6c8d24d26f28578a6ead6d9e25cba5501b3990633ed58f5ffc175e220f7e072",
+    "description": "Overlay"
+  }
+]

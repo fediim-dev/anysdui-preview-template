@@ -1,0 +1,1764 @@
+{
+    "$defs": {
+        "anyComponent": {
+            "oneOf": [
+                {
+                    "$ref": "#/components/AudioPlayer"
+                },
+                {
+                    "$ref": "#/components/BasicText"
+                },
+                {
+                    "$ref": "#/components/BasicTextField"
+                },
+                {
+                    "$ref": "#/components/Box"
+                },
+                {
+                    "$ref": "#/components/ChoicePicker"
+                },
+                {
+                    "$ref": "#/components/Column"
+                },
+                {
+                    "$ref": "#/components/DateTimeInput"
+                },
+                {
+                    "$ref": "#/components/FlowColumn"
+                },
+                {
+                    "$ref": "#/components/FlowRow"
+                },
+                {
+                    "$ref": "#/components/Image"
+                },
+                {
+                    "$ref": "#/components/List"
+                },
+                {
+                    "$ref": "#/components/Modal"
+                },
+                {
+                    "$ref": "#/components/Row"
+                },
+                {
+                    "$ref": "#/components/Spacer"
+                },
+                {
+                    "$ref": "#/components/Tabs"
+                },
+                {
+                    "$ref": "#/components/ThemeScope"
+                },
+                {
+                    "$ref": "#/components/Video"
+                }
+            ]
+        },
+        "anyFunction": {
+            "oneOf": [
+                {
+                    "$ref": "#/functions/and"
+                },
+                {
+                    "$ref": "#/functions/email"
+                },
+                {
+                    "$ref": "#/functions/formatCurrency"
+                },
+                {
+                    "$ref": "#/functions/formatDate"
+                },
+                {
+                    "$ref": "#/functions/formatNumber"
+                },
+                {
+                    "$ref": "#/functions/formatString"
+                },
+                {
+                    "$ref": "#/functions/length"
+                },
+                {
+                    "$ref": "#/functions/not"
+                },
+                {
+                    "$ref": "#/functions/numeric"
+                },
+                {
+                    "$ref": "#/functions/openUrl"
+                },
+                {
+                    "$ref": "#/functions/or"
+                },
+                {
+                    "$ref": "#/functions/pluralize"
+                },
+                {
+                    "$ref": "#/functions/regex"
+                },
+                {
+                    "$ref": "#/functions/required"
+                },
+                {
+                    "$ref": "#/functions/setTheme"
+                },
+                {
+                    "$ref": "#/functions/setThemeMode"
+                }
+            ]
+        }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "catalogId": "urn:anysdui:compose-foundation:1.12.0",
+    "components": {
+        "AudioPlayer": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "AudioPlayer"
+                        },
+                        "description": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "default": "",
+                            "description": "Optional descriptive title or caption for the audio track.",
+                            "x-default": "\"\""
+                        },
+                        "enabled": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": true,
+                            "description": "Whether media playback controls are interactive.",
+                            "x-default": "true"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the audio player container."
+                        },
+                        "url": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "Remote media URL or stream locator of the audio resource."
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "url"
+                    ]
+                }
+            ],
+            "description": "Standard A2UI AudioPlayer media playback component conforming to basic catalog schema.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "AudioPlayer",
+                "description": {
+                    "@path": "title"
+                },
+                "id": "episode_player",
+                "url": {
+                    "@path": "url"
+                }
+            },
+            "x-stateSupport": [
+                "disabled"
+            ]
+        },
+        "BasicText": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "color": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ColorRef",
+                            "description": "Color token to apply to the text.",
+                            "x-default": "androidx.compose.ui.graphics.Color.Unspecified"
+                        },
+                        "component": {
+                            "const": "BasicText"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the text."
+                        },
+                        "style": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/TypographyRef",
+                            "description": "Typography style token to apply.",
+                            "x-default": "androidx.compose.ui.text.TextStyle.Default"
+                        },
+                        "text": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The text string to display."
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "text"
+                    ]
+                }
+            ],
+            "description": "Basic text component rendering unstyled or custom styled text without Material defaults.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "BasicText",
+                "id": "booking_title",
+                "text": "Book a room"
+            }
+        },
+        "BasicTextField": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "BasicTextField"
+                        },
+                        "enabled": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": true,
+                            "description": "Whether the text field accepts user interaction.",
+                            "x-default": "true"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the input field."
+                        },
+                        "readOnly": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": false,
+                            "description": "Whether the text field is read-only and prevents editing.",
+                            "x-default": "false"
+                        },
+                        "textStyle": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/TypographyRef",
+                            "description": "Typography style token to apply to the entered text.",
+                            "x-default": "androidx.compose.ui.text.TextStyle.Default"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "Current text value of the input field.",
+                            "x-twoWay": true
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "value"
+                    ]
+                }
+            ],
+            "description": "Basic text input field providing bare-bones editing functionality without decorations.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "BasicTextField",
+                "id": "username_field",
+                "value": {
+                    "@path": "/login/username"
+                }
+            },
+            "x-stateSupport": [
+                "disabled",
+                "focused",
+                "hovered",
+                "pressed",
+                "readOnly"
+            ]
+        },
+        "Box": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "Box"
+                        },
+                        "content": {
+                            "$ref": "common_types.json#/$defs/ChildList",
+                            "description": "Composable slot for the children elements.",
+                            "x-scope": "BoxScope"
+                        },
+                        "contentAlignment": {
+                            "default": "topStart",
+                            "description": "Alignment of children inside the Box.",
+                            "enum": [
+                                "topStart",
+                                "topCenter",
+                                "topEnd",
+                                "centerStart",
+                                "center",
+                                "centerEnd",
+                                "bottomStart",
+                                "bottomCenter",
+                                "bottomEnd"
+                            ],
+                            "x-default": "SduiAlignment.TopStart"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the Box."
+                        },
+                        "propagateMinConstraints": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": false,
+                            "description": "Whether the incoming minimum constraints should be passed to the children.",
+                            "x-default": "false"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "content"
+                    ]
+                }
+            ],
+            "description": "Layout container that stacks its children on top of each other.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "Box",
+                "content": [
+                    "banner_column"
+                ],
+                "id": "root",
+                "modifier": [
+                    {
+                        "type": "fillMaxWidth"
+                    },
+                    {
+                        "color": {
+                            "type": "color",
+                            "value": "lightGray"
+                        },
+                        "type": "background"
+                    },
+                    {
+                        "all": 16,
+                        "type": "padding"
+                    }
+                ]
+            }
+        },
+        "ChoicePicker": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "ChoicePicker"
+                        },
+                        "displayStyle": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "default": "checkbox",
+                            "description": "Visual presentation style (\"checkbox\" or \"chips\").",
+                            "x-default": "\"checkbox\""
+                        },
+                        "enabled": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": true,
+                            "description": "Whether the choice picker is interactive; it is also read-only when value is not a bound path reference.",
+                            "x-default": "true"
+                        },
+                        "filterable": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": false,
+                            "description": "Whether to display a search text box to filter available options.",
+                            "x-default": "false"
+                        },
+                        "label": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "default": "",
+                            "description": "Optional text label displayed above the choice picker.",
+                            "x-default": "\"\""
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the container."
+                        },
+                        "options": {
+                            "description": "Array of selectable option objects each specifying a value and label. At most 200 are drawn.",
+                            "items": {
+                                "properties": {
+                                    "label": {
+                                        "$ref": "common_types.json#/$defs/DynamicString",
+                                        "description": "The text to display for this option."
+                                    },
+                                    "value": {
+                                        "description": "The stable value associated with this option.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicValue",
+                            "description": "Currently selected option value or bound data model path reference.",
+                            "x-default": "null"
+                        },
+                        "variant": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "default": "mutuallyExclusive",
+                            "description": "Selection behavior variant (\"mutuallyExclusive\" for single select or \"multipleSelection\").",
+                            "x-default": "\"mutuallyExclusive\""
+                        }
+                    },
+                    "required": [
+                        "component"
+                    ]
+                }
+            ],
+            "description": "Standard A2UI ChoicePicker single/multi option selector conforming to basic catalog schema.\n\nSupports structured options array, filterable search query, chips and checkbox display styles.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "ChoicePicker",
+                "id": "room_picker",
+                "label": "Room",
+                "options": [
+                    {
+                        "label": "Single",
+                        "value": "single"
+                    },
+                    {
+                        "label": "Double",
+                        "value": "double"
+                    },
+                    {
+                        "label": "Suite",
+                        "value": "suite"
+                    }
+                ],
+                "value": {
+                    "@path": "/booking/room"
+                }
+            },
+            "x-stateSupport": [
+                "disabled"
+            ]
+        },
+        "Column": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "Column"
+                        },
+                        "content": {
+                            "$ref": "common_types.json#/$defs/ChildList",
+                            "description": "Composable slot for the children elements.",
+                            "x-scope": "ColumnScope"
+                        },
+                        "horizontalAlignment": {
+                            "default": "start",
+                            "description": "Alignment of children along the horizontal axis.",
+                            "enum": [
+                                "start",
+                                "centerHorizontally",
+                                "end"
+                            ],
+                            "x-default": "SduiHorizontalAlignment.Start"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the Column."
+                        },
+                        "spacing": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "default": 0,
+                            "description": "Spacing in dp between adjacent children.",
+                            "x-default": "0"
+                        },
+                        "verticalArrangement": {
+                            "default": "top",
+                            "description": "Arrangement of children along the vertical axis.",
+                            "enum": [
+                                "top",
+                                "center",
+                                "bottom",
+                                "spaceBetween",
+                                "spaceAround",
+                                "spaceEvenly"
+                            ],
+                            "x-default": "SduiVerticalArrangement.Top"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "content"
+                    ]
+                }
+            ],
+            "description": "Vertical layout that places its children in a vertical sequence.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "Column",
+                "content": [
+                    "booking_title",
+                    "room_picker",
+                    "booking_gap",
+                    "date_input",
+                    "extras_flow",
+                    "terms_modal",
+                    "confirm_text"
+                ],
+                "id": "root",
+                "modifier": [
+                    {
+                        "all": 16,
+                        "type": "padding"
+                    }
+                ],
+                "spacing": 12
+            }
+        },
+        "DateTimeInput": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "DateTimeInput"
+                        },
+                        "enableDate": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": true,
+                            "description": "Whether selecting a calendar date is enabled.",
+                            "x-default": "true"
+                        },
+                        "enableTime": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": false,
+                            "description": "Whether selecting a time is enabled.",
+                            "x-default": "false"
+                        },
+                        "enabled": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": true,
+                            "description": "Whether the date/time input is interactive.",
+                            "x-default": "true"
+                        },
+                        "label": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "default": "Select Date",
+                            "description": "Descriptive text label for the date/time input field.",
+                            "x-default": "\"Select Date\""
+                        },
+                        "max": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "default": "",
+                            "description": "Maximum allowable date/time in ISO 8601 format.",
+                            "x-default": "\"\""
+                        },
+                        "min": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "default": "",
+                            "description": "Minimum allowable date/time in ISO 8601 format.",
+                            "x-default": "\"\""
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the input field."
+                        },
+                        "readOnly": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": false,
+                            "description": "Whether the date/time input is read-only and suppresses the picker dialog; a value that is not a bound path reference acts as read-only too.",
+                            "x-default": "false"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicValue",
+                            "description": "Current date/time value or bound data model path reference.",
+                            "x-default": "null"
+                        }
+                    },
+                    "required": [
+                        "component"
+                    ]
+                }
+            ],
+            "description": "Standard A2UI DateTimeInput date/time picker conforming to basic catalog schema.\n\nFormats picked timestamp to exact ISO 8601 string and updates the target data model path.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "DateTimeInput",
+                "enableDate": true,
+                "enableTime": false,
+                "id": "date_input",
+                "label": "Check-in",
+                "value": {
+                    "@path": "/booking/checkIn"
+                }
+            },
+            "x-stateSupport": [
+                "disabled",
+                "readOnly"
+            ]
+        },
+        "FlowColumn": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "FlowColumn"
+                        },
+                        "content": {
+                            "$ref": "common_types.json#/$defs/ChildList",
+                            "description": "Composable slot for the children elements.",
+                            "x-scope": "FlowColumnScope"
+                        },
+                        "horizontalArrangement": {
+                            "default": "start",
+                            "description": "Arrangement of columns along the horizontal axis.",
+                            "enum": [
+                                "start",
+                                "center",
+                                "end",
+                                "spaceBetween",
+                                "spaceAround",
+                                "spaceEvenly"
+                            ],
+                            "x-default": "SduiHorizontalArrangement.Start"
+                        },
+                        "horizontalSpacing": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "default": 0,
+                            "description": "Horizontal spacing in dp between adjacent columns.",
+                            "x-default": "0"
+                        },
+                        "maxItemsInEachColumn": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "default": 2147483647,
+                            "description": "Maximum number of items permitted in each column before wrapping.",
+                            "x-default": "2147483647"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the FlowColumn."
+                        },
+                        "verticalArrangement": {
+                            "default": "top",
+                            "description": "Arrangement of items along the vertical axis.",
+                            "enum": [
+                                "top",
+                                "center",
+                                "bottom",
+                                "spaceBetween",
+                                "spaceAround",
+                                "spaceEvenly"
+                            ],
+                            "x-default": "SduiVerticalArrangement.Top"
+                        },
+                        "verticalSpacing": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "default": 0,
+                            "description": "Vertical spacing in dp between adjacent items in a column.",
+                            "x-default": "0"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "content"
+                    ]
+                }
+            ],
+            "description": "Vertical layout that wraps items to a new column when vertical space is exhausted.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "FlowColumn",
+                "content": [
+                    "topic_design",
+                    "topic_code",
+                    "topic_ops"
+                ],
+                "horizontalSpacing": 16,
+                "id": "topic_flow",
+                "maxItemsInEachColumn": 2,
+                "verticalSpacing": 8
+            }
+        },
+        "FlowRow": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "FlowRow"
+                        },
+                        "content": {
+                            "$ref": "common_types.json#/$defs/ChildList",
+                            "description": "Composable slot for the children elements.",
+                            "x-scope": "FlowRowScope"
+                        },
+                        "horizontalArrangement": {
+                            "default": "start",
+                            "description": "Arrangement of items along the horizontal axis.",
+                            "enum": [
+                                "start",
+                                "center",
+                                "end",
+                                "spaceBetween",
+                                "spaceAround",
+                                "spaceEvenly"
+                            ],
+                            "x-default": "SduiHorizontalArrangement.Start"
+                        },
+                        "horizontalSpacing": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "default": 0,
+                            "description": "Horizontal spacing in dp between adjacent items in a row.",
+                            "x-default": "0"
+                        },
+                        "maxItemsInEachRow": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "default": 2147483647,
+                            "description": "Maximum number of items permitted in each row before wrapping.",
+                            "x-default": "2147483647"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the FlowRow."
+                        },
+                        "verticalArrangement": {
+                            "default": "top",
+                            "description": "Arrangement of rows along the vertical axis.",
+                            "enum": [
+                                "top",
+                                "center",
+                                "bottom",
+                                "spaceBetween",
+                                "spaceAround",
+                                "spaceEvenly"
+                            ],
+                            "x-default": "SduiVerticalArrangement.Top"
+                        },
+                        "verticalSpacing": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "default": 0,
+                            "description": "Vertical spacing in dp between adjacent rows.",
+                            "x-default": "0"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "content"
+                    ]
+                }
+            ],
+            "description": "Horizontal layout that wraps items to a new line when horizontal space is exhausted.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "FlowRow",
+                "content": [
+                    "extra_breakfast",
+                    "extra_parking",
+                    "extra_late"
+                ],
+                "horizontalSpacing": 8,
+                "id": "extras_flow",
+                "verticalSpacing": 8
+            }
+        },
+        "Image": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "Image"
+                        },
+                        "image": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/IconRef",
+                            "description": "Vector asset resource token to render."
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the image."
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "image"
+                    ]
+                }
+            ],
+            "description": "Vector image component that displays an icon or vector asset.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "Image",
+                "id": "banner_image",
+                "image": {
+                    "type": "icon",
+                    "value": "dummy"
+                },
+                "modifier": [
+                    {
+                        "height": 64,
+                        "type": "size",
+                        "width": 64
+                    }
+                ]
+            }
+        },
+        "List": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "align": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "default": "stretch",
+                            "description": "Alignment of children perpendicular to the scroll direction (\"start\", \"center\", \"end\", or \"stretch\").",
+                            "x-default": "\"stretch\""
+                        },
+                        "children": {
+                            "$ref": "common_types.json#/$defs/ChildList",
+                            "description": "Composable slot for the list children."
+                        },
+                        "component": {
+                            "const": "List"
+                        },
+                        "direction": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "default": "vertical",
+                            "description": "Layout orientation of the list (\"vertical\" or \"horizontal\").",
+                            "x-default": "\"vertical\""
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the list."
+                        }
+                    },
+                    "required": [
+                        "children",
+                        "component"
+                    ]
+                }
+            ],
+            "description": "Standard A2UI List component conforming to basic catalog schema.\n\nSupports vertical/horizontal orientation, alignment, and dynamic child templates.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "children": {
+                    "componentId": "episode_player",
+                    "path": "/podcast/episodes"
+                },
+                "component": "List",
+                "id": "episode_list"
+            }
+        },
+        "Modal": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "Modal"
+                        },
+                        "content": {
+                            "$ref": "common_types.json#/$defs/ChildList",
+                            "description": "Composable slot for the modal dialog content."
+                        },
+                        "enabled": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": true,
+                            "description": "Whether the modal trigger is interactive.",
+                            "x-default": "true"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the modal trigger wrapper."
+                        },
+                        "trigger": {
+                            "$ref": "common_types.json#/$defs/ChildList",
+                            "description": "Composable slot for the trigger component that opens the modal."
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "content",
+                        "trigger"
+                    ]
+                }
+            ],
+            "description": "Standard A2UI Modal dialog container conforming to basic catalog schema.\n\nDisplays interactive trigger element and overlay dialog content on interaction.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "Modal",
+                "content": [
+                    "terms_text"
+                ],
+                "id": "terms_modal",
+                "trigger": [
+                    "terms_link"
+                ]
+            },
+            "x-stateSupport": [
+                "disabled"
+            ]
+        },
+        "Row": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "Row"
+                        },
+                        "content": {
+                            "$ref": "common_types.json#/$defs/ChildList",
+                            "description": "Composable slot for the children elements.",
+                            "x-scope": "RowScope"
+                        },
+                        "horizontalArrangement": {
+                            "default": "start",
+                            "description": "Arrangement of children along the horizontal axis.",
+                            "enum": [
+                                "start",
+                                "center",
+                                "end",
+                                "spaceBetween",
+                                "spaceAround",
+                                "spaceEvenly"
+                            ],
+                            "x-default": "SduiHorizontalArrangement.Start"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the Row."
+                        },
+                        "spacing": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "default": 0,
+                            "description": "Spacing in dp between adjacent children.",
+                            "x-default": "0"
+                        },
+                        "verticalAlignment": {
+                            "default": "top",
+                            "description": "Alignment of children along the vertical axis.",
+                            "enum": [
+                                "top",
+                                "centerVertically",
+                                "bottom"
+                            ],
+                            "x-default": "SduiVerticalAlignment.Top"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "content"
+                    ]
+                }
+            ],
+            "description": "Horizontal layout that places its children in a horizontal sequence.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "Row",
+                "content": [
+                    "play_text",
+                    "pause_text"
+                ],
+                "id": "controls_row",
+                "spacing": 16
+            }
+        },
+        "Spacer": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "Spacer"
+                        },
+                        "height": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "default": 0,
+                            "description": "Height in dp of the spacer.",
+                            "x-default": "0"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the spacer."
+                        },
+                        "width": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "default": 0,
+                            "description": "Width in dp of the spacer.",
+                            "x-default": "0"
+                        }
+                    },
+                    "required": [
+                        "component"
+                    ]
+                }
+            ],
+            "description": "Empty layout space used to create empty separation between components.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "Spacer",
+                "height": 8,
+                "id": "booking_gap"
+            }
+        },
+        "Tabs": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "Tabs"
+                        },
+                        "enabled": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": true,
+                            "description": "Whether tab navigation is enabled.",
+                            "x-default": "true"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the tabs container."
+                        },
+                        "tabs": {
+                            "description": "Array of tab descriptor objects containing title and child component reference. At most 200 are drawn.",
+                            "items": {
+                                "properties": {
+                                    "child": {
+                                        "description": "Id of the component shown when the tab is selected.",
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "$ref": "common_types.json#/$defs/DynamicString",
+                                        "description": "The tab's title."
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "component"
+                    ]
+                }
+            ],
+            "description": "Standard A2UI Tabs navigation row conforming to basic catalog schema.\n\nRenders tab headers with dynamic titles and displays the active tab child component.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "Tabs",
+                "id": "root",
+                "tabs": [
+                    {
+                        "child": "episode_list",
+                        "title": "Episodes"
+                    },
+                    {
+                        "child": "topic_flow",
+                        "title": "Topics"
+                    }
+                ]
+            },
+            "x-stateSupport": [
+                "disabled"
+            ]
+        },
+        "ThemeScope": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "child": {
+                            "$ref": "common_types.json#/$defs/Child",
+                            "description": "Id of the component drawn under theme."
+                        },
+                        "component": {
+                            "const": "ThemeScope"
+                        },
+                        "theme": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ThemeSpec",
+                            "description": "The theme for the child, in the shape of the createSurface theme extension (mode, colors, components, ...). Ignored under a HOST_ONLY theme policy; motion is ignored."
+                        }
+                    },
+                    "required": [
+                        "child",
+                        "component",
+                        "theme"
+                    ]
+                }
+            ],
+            "description": "Themes its one child apart from the rest of the surface: theme is merged over the enclosing theme for the child and everything below it, and nowhere else.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "child": "panel",
+                "component": "ThemeScope",
+                "id": "dark_panel",
+                "theme": {
+                    "mode": "dark"
+                }
+            },
+            "x-invariants": [
+                "theme is bounded as the `createSurface` theme is (nesting, size, `checkThemeSpec`) and obeys the host's theme policy: under `HOST_ONLY` it changes nothing.",
+                "A theme that fails is not applied: the child renders under the enclosing theme, one renderer diagnostic is reported, and the agent gets no error.",
+                "`motion` in theme is ignored; motion stays the surface's.",
+                "Nested ThemeScopes merge, the innermost last; a ThemeScope inside 8 others is refused like a failing theme.",
+                "A theme is checked once per surface, however many template rows hold this component."
+            ],
+            "x-usage": "Use to theme one subtree, such as a dark panel on a light surface or a brand-coloured card. Do not use it to theme the whole surface; send the theme in createSurface for that."
+        },
+        "Video": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "Video"
+                        },
+                        "description": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "default": "",
+                            "description": "Optional descriptive title or caption for the video.",
+                            "x-default": "\"\""
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the video player container."
+                        },
+                        "url": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "Remote media URL or stream locator of the video resource."
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "url"
+                    ]
+                }
+            ],
+            "description": "Standard A2UI Video media presentation component conforming to basic catalog schema.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "Video",
+                "description": "Product introduction",
+                "id": "media_video",
+                "url": "https://example.com/media/intro.mp4"
+            }
+        }
+    },
+    "description": "Compose Foundation SDUI catalog providing primitive layout and input components.",
+    "functions": {
+        "and": {
+            "description": "Performs a logical AND operation on a list of boolean values.",
+            "properties": {
+                "@call": {
+                    "const": "and"
+                },
+                "args": {
+                    "properties": {
+                        "values": {
+                            "description": "The list of boolean values to evaluate.",
+                            "items": {
+                                "$ref": "common_types.json#/$defs/DynamicBoolean"
+                            },
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "values"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "boolean",
+            "type": "object"
+        },
+        "email": {
+            "description": "Checks that the value is a valid email address.",
+            "properties": {
+                "@call": {
+                    "const": "email"
+                },
+                "args": {
+                    "properties": {
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The string to check as an email address."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "validationResult",
+            "type": "object"
+        },
+        "formatCurrency": {
+            "description": "Formats a number as a currency string.",
+            "properties": {
+                "@call": {
+                    "const": "formatCurrency"
+                },
+                "args": {
+                    "properties": {
+                        "currency": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The ISO 4217 currency code (e.g., 'USD', 'EUR')."
+                        },
+                        "decimals": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "Optional. The number of decimal places to show. Defaults to 0 or 2 depending on locale."
+                        },
+                        "grouping": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "description": "Optional. If true, uses locale-specific grouping separators (e.g. '1,000'). If false, returns raw digits (e.g. '1000'). Defaults to true."
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "The monetary amount."
+                        }
+                    },
+                    "required": [
+                        "currency",
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "string",
+            "type": "object"
+        },
+        "formatDate": {
+            "description": "Formats a timestamp into a string using a pattern.",
+            "properties": {
+                "@call": {
+                    "const": "formatDate"
+                },
+                "args": {
+                    "properties": {
+                        "format": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "A Unicode TR35 date pattern string.\n\nToken Reference:\n- Year: 'yy' (26), 'yyyy' (2026)\n- Month: 'M' (1), 'MM' (01), 'MMM' (Jan), 'MMMM' (January)\n- Day: 'd' (1), 'dd' (01), 'E' (Tue), 'EEEE' (Tuesday)\n- Hour (12h): 'h' (1-12), 'hh' (01-12) - requires 'a' for AM/PM\n- Hour (24h): 'H' (0-23), 'HH' (00-23) - Military Time\n- Minute: 'mm' (00-59)\n- Second: 'ss' (00-59)\n- Period: 'a' (AM/PM)\n\nExamples:\n- 'MMM dd, yyyy' -> 'Jan 16, 2026'\n- 'HH:mm' -> '14:30' (Military)\n- 'h:mm a' -> '2:30 PM'\n- 'EEEE, d MMMM' -> 'Friday, 16 January'"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicValue",
+                            "description": "The date to format."
+                        }
+                    },
+                    "required": [
+                        "format",
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "string",
+            "type": "object"
+        },
+        "formatNumber": {
+            "description": "Formats a number with the specified grouping and decimal precision.",
+            "properties": {
+                "@call": {
+                    "const": "formatNumber"
+                },
+                "args": {
+                    "properties": {
+                        "decimals": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "Optional. The number of decimal places to show. Defaults to 0 or 2 depending on locale."
+                        },
+                        "grouping": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "description": "Optional. If true, uses locale-specific grouping separators (e.g. '1,000'). If false, returns raw digits (e.g. '1000'). Defaults to true."
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "The number to format."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "string",
+            "type": "object"
+        },
+        "formatString": {
+            "description": "Performs string interpolation of data model values and other functions in the catalog functions list and returns the resulting string. The value string can contain interpolated expressions in the `${expression}` format. Supported expression types include: JSON Pointer paths to the data model (e.g., `${/absolute/path}` or `${relative/path}`), and renderer-side function calls (e.g., `${now()}`). Function arguments must be named (e.g., `${formatDate(value:${/currentDate}, format:'MM-dd')}`). To include a literal `${` sequence, escape it as `\\${`. An expression can also be a literal: a quoted string (`'text'` or `\"text\"`), a number (e.g., `-3.14`), `true` or `false`.",
+            "properties": {
+                "@call": {
+                    "const": "formatString"
+                },
+                "args": {
+                    "properties": {
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The template: text with embedded `${expression}` parts, where an expression is a JSON Pointer path, a literal (quoted string, number, `true` or `false`) or a function call with named arguments. Expressions nest, and `\\${` is a literal `${`."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "string",
+            "type": "object"
+        },
+        "length": {
+            "description": "Checks string length constraints.",
+            "properties": {
+                "@call": {
+                    "const": "length"
+                },
+                "args": {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "min"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "max"
+                            ]
+                        }
+                    ],
+                    "properties": {
+                        "max": {
+                            "description": "The maximum allowed length.",
+                            "minimum": 0,
+                            "type": "integer"
+                        },
+                        "min": {
+                            "description": "The minimum allowed length.",
+                            "minimum": 0,
+                            "type": "integer"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The string whose length is checked."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "validationResult",
+            "type": "object"
+        },
+        "not": {
+            "description": "Performs a logical NOT operation on a boolean value.",
+            "properties": {
+                "@call": {
+                    "const": "not"
+                },
+                "args": {
+                    "properties": {
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "description": "The boolean value to negate."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "boolean",
+            "type": "object"
+        },
+        "numeric": {
+            "description": "Checks numeric range constraints.",
+            "properties": {
+                "@call": {
+                    "const": "numeric"
+                },
+                "args": {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "min"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "max"
+                            ]
+                        }
+                    ],
+                    "properties": {
+                        "max": {
+                            "description": "The maximum allowed value.",
+                            "type": "number"
+                        },
+                        "min": {
+                            "description": "The minimum allowed value.",
+                            "type": "number"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "The number whose range is checked."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "validationResult",
+            "type": "object"
+        },
+        "openUrl": {
+            "allowedCallers": "rendererOnly",
+            "description": "Opens the specified URL in a browser or handler (requires user activation). This function has no return value.",
+            "properties": {
+                "@call": {
+                    "const": "openUrl"
+                },
+                "args": {
+                    "properties": {
+                        "url": {
+                            "description": "The URL to open.",
+                            "oneOf": [
+                                {
+                                    "format": "uri",
+                                    "type": "string"
+                                },
+                                {
+                                    "$ref": "common_types.json#/$defs/DataBinding"
+                                },
+                                {
+                                    "$ref": "common_types.json#/$defs/FunctionCall"
+                                }
+                            ]
+                        }
+                    },
+                    "required": [
+                        "url"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "requiresUserActivation": true,
+            "returnType": "void",
+            "type": "object"
+        },
+        "or": {
+            "description": "Performs a logical OR operation on a list of boolean values.",
+            "properties": {
+                "@call": {
+                    "const": "or"
+                },
+                "args": {
+                    "properties": {
+                        "values": {
+                            "description": "The list of boolean values to evaluate.",
+                            "items": {
+                                "$ref": "common_types.json#/$defs/DynamicBoolean"
+                            },
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "values"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "boolean",
+            "type": "object"
+        },
+        "pluralize": {
+            "description": "Returns a localized string based on the Common Locale Data Repository (CLDR) plural category of the count (zero, one, two, few, many, other). Requires an 'other' fallback. For English, just use 'one' and 'other'.",
+            "properties": {
+                "@call": {
+                    "const": "pluralize"
+                },
+                "args": {
+                    "properties": {
+                        "few": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "String for the 'few' category (e.g., small groups in Slavic languages)."
+                        },
+                        "many": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "String for the 'many' category (e.g., large groups in various languages)."
+                        },
+                        "one": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "String for the 'one' category (e.g., 1 item)."
+                        },
+                        "other": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The default/fallback string (used for general plural cases)."
+                        },
+                        "two": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "String for the 'two' category (used in Arabic, Welsh, etc.)."
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "The numeric value used to determine the plural category."
+                        },
+                        "zero": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "String for the 'zero' category (e.g., 0 items)."
+                        }
+                    },
+                    "required": [
+                        "value",
+                        "other"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "string",
+            "type": "object"
+        },
+        "regex": {
+            "description": "Checks that the value matches a regular expression string.",
+            "properties": {
+                "@call": {
+                    "const": "regex"
+                },
+                "args": {
+                    "properties": {
+                        "pattern": {
+                            "description": "The regex pattern to match against.",
+                            "type": "string"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The string to test against the pattern."
+                        }
+                    },
+                    "required": [
+                        "value",
+                        "pattern"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "validationResult",
+            "type": "object"
+        },
+        "required": {
+            "description": "Checks that the value is not null, undefined, or empty.",
+            "properties": {
+                "@call": {
+                    "const": "required"
+                },
+                "args": {
+                    "properties": {
+                        "value": {
+                            "description": "The value to check."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "validationResult",
+            "type": "object"
+        },
+        "setTheme": {
+            "allowedCallers": "agentOnly",
+            "description": "Sets or updates the active theme on the target surface.",
+            "properties": {
+                "@call": {
+                    "const": "setTheme"
+                },
+                "args": {
+                    "properties": {
+                        "surfaceId": {
+                            "description": "Optional target surface ID. Defaults to current surface.",
+                            "type": "string"
+                        },
+                        "theme": {
+                            "$ref": "anysdui_types.compose-foundation.json#/$defs/ThemeSpec",
+                            "description": "The ThemeSpec to apply."
+                        }
+                    },
+                    "required": [
+                        "theme"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "requiresUserActivation": false,
+            "returnType": "void",
+            "type": "object"
+        },
+        "setThemeMode": {
+            "allowedCallers": "agentOnly",
+            "description": "Switches the theme mode of the target surface between light, dark, or system.",
+            "properties": {
+                "@call": {
+                    "const": "setThemeMode"
+                },
+                "args": {
+                    "properties": {
+                        "mode": {
+                            "description": "Target theme mode: 'light', 'dark', or 'system'.",
+                            "enum": [
+                                "light",
+                                "dark",
+                                "system"
+                            ],
+                            "type": "string"
+                        },
+                        "surfaceId": {
+                            "description": "Optional target surface ID. Defaults to current surface.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "mode"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "requiresUserActivation": false,
+            "returnType": "void",
+            "type": "object"
+        }
+    },
+    "instructions": "Lay out with Column, Row and Box; use FlowRow or FlowColumn when items must wrap and Spacer for fixed gaps. Exactly one component has the id root; other ids are snake_case names of letters, digits and underscores that say what the component is (username_field, banner_title). A container lists its children as an array of ids in content (List uses children; Modal also needs trigger). Bind a value with {\"@path\": \"/login/username\"} (RFC 6901, leading slash) and send the data in updateDataModel; BasicTextField writes back to the path bound to value; an input is editable only when value is a path. Foundation has no button: make BasicText tappable with the modifier {\"type\": \"clickable\", \"action\": {\"event\": {\"name\": \"login\"}}}. Prefer BasicText for all text and Video or AudioPlayer with an absolute https url for media. Foundation has no theme of its own: colors are literal constants (black, white, red, etc.) or hex strings, written as {\"type\": \"color\", \"value\": \"darkGray\"}, typography is the unstyled default text style, and icons are basic shapes. Give a meaningful Image an accessibility.label. For themed role-based styling, target the Material 3 or Material catalogs.",
+    "protocolVersion": "1.0",
+    "title": "Compose Foundation"
+}
