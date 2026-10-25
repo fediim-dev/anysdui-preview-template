@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -72,22 +75,24 @@ fun PreviewApp(initialLink: String?) {
     }
     MaterialTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            val path = socketPath
-            if (path == null) {
-                JoinScreen(
-                    notice = notice,
-                    onCode = { code ->
-                        socketPath = pairingSocketPath(code.trim())
-                        notice = if (socketPath == null) CODE_REFUSED else null
-                    },
-                    onLink = { text ->
-                        socketPath =
-                            shareLinkOf(text.trim(), PreviewConfig.SERVER_ORIGIN)?.socketPath
-                        notice = if (socketPath == null) LINK_REFUSED else null
-                    },
-                )
-            } else {
-                RoomScreen(path, onLeave = { socketPath = null })
+            Box(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
+                val path = socketPath
+                if (path == null) {
+                    JoinScreen(
+                        notice = notice,
+                        onCode = { code ->
+                            socketPath = pairingSocketPath(code.trim())
+                            notice = if (socketPath == null) CODE_REFUSED else null
+                        },
+                        onLink = { text ->
+                            socketPath =
+                                shareLinkOf(text.trim(), PreviewConfig.SERVER_ORIGIN)?.socketPath
+                            notice = if (socketPath == null) LINK_REFUSED else null
+                        },
+                    )
+                } else {
+                    RoomScreen(path, onLeave = { socketPath = null })
+                }
             }
         }
     }
@@ -124,7 +129,7 @@ private fun JoinScreen(notice: String?, onCode: (String) -> Unit, onLink: (Strin
 
 @Composable
 private fun RoomScreen(socketPath: String, onLeave: () -> Unit) {
-    var invalid by remember(socketPath) { mutableStateOf(false) }
+    var ended by remember(socketPath) { mutableStateOf<String?>(null) }
     var connection by
         remember(socketPath) {
             mutableStateOf<WebSocketConnectionState>(WebSocketConnectionState.Disconnected)
@@ -142,8 +147,10 @@ private fun RoomScreen(socketPath: String, onLeave: () -> Unit) {
                     connection = state
                     mode = modeAfter(state, mode)
                     when (state) {
-                        is WebSocketConnectionState.Failed -> invalid = true
-                        WebSocketConnectionState.Disconnected -> if (started) invalid = true
+                        is WebSocketConnectionState.Failed ->
+                            ended = roomEndedText(socketPath, state.error)
+                        WebSocketConnectionState.Disconnected ->
+                            if (started) ended = roomEndedText(socketPath, null)
                         else -> started = true
                     }
                 },
@@ -170,7 +177,7 @@ private fun RoomScreen(socketPath: String, onLeave: () -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             TextButton(onClick = onLeave) { Text("Leave") }
-            if (!invalid) {
+            if (ended == null) {
                 for ((id, label) in listOf("follow" to "Follow", "explore" to "Explore")) {
                     FilterChip(
                         selected = mode == id,
@@ -194,10 +201,11 @@ private fun RoomScreen(socketPath: String, onLeave: () -> Unit) {
         }
         Box(
             modifier = Modifier.fillMaxSize().padding(12.dp),
-            contentAlignment = if (invalid) Alignment.Center else Alignment.TopCenter,
+            contentAlignment = if (ended != null) Alignment.Center else Alignment.TopCenter,
         ) {
-            if (invalid) {
-                Text("This link is no longer valid")
+            val endedText = ended
+            if (endedText != null) {
+                Text(endedText)
             } else {
                 Box(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
                     CompositionLocalProvider(LocalImageSourcePolicy provides imageSourcePolicy()) {
@@ -208,6 +216,18 @@ private fun RoomScreen(socketPath: String, onLeave: () -> Unit) {
         }
     }
 }
+
+/**
+ * What the room screen says once its socket is refused or closed. A share-link socket says the link
+ * is no longer valid, as the server's own viewer does; a pairing-code socket names the server's
+ * reason, such as a catalog mismatch, so a wrong build is not mistaken for an expired link.
+ */
+internal fun roomEndedText(socketPath: String, error: String?): String =
+    when {
+        "viewId=" in socketPath -> "This link is no longer valid"
+        error.isNullOrBlank() -> "The room closed the connection."
+        else -> "Could not join the room: $error"
+    }
 
 /**
  * Images load from the server origin only, resolving the server's root-relative image paths against
