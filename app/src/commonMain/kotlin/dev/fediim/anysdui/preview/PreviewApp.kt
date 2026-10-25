@@ -57,19 +57,19 @@ private const val CODE_REFUSED = "That is not a pairing code."
 @OptIn(PreviewTestHook::class)
 @Composable
 fun PreviewApp(initialLink: String?) {
-    PreviewApp(initialLink, probe = null, serverOrigin = PreviewConfig.SERVER_ORIGIN)
+    PreviewAppContent(initialLink, probe = null)
 }
 
 /** [PreviewApp] with [probe] filled in as the room screen runs; for tests only. */
 @PreviewTestHook
 @Composable
 fun PreviewApp(initialLink: String?, probe: RoomProbe) {
-    PreviewApp(initialLink, probe, serverOrigin = PreviewConfig.SERVER_ORIGIN)
+    PreviewAppContent(initialLink, probe)
 }
 
 @OptIn(PreviewTestHook::class)
 @Composable
-private fun PreviewApp(initialLink: String?, probe: RoomProbe?, serverOrigin: String) {
+private fun PreviewAppContent(initialLink: String?, probe: RoomProbe?) {
     var socketPath by remember {
         mutableStateOf(
             initialLink?.let { shareLinkOf(it, PreviewConfig.SERVER_ORIGIN)?.socketPath }
@@ -109,7 +109,6 @@ private fun PreviewApp(initialLink: String?, probe: RoomProbe?, serverOrigin: St
                         path,
                         onLeave = { socketPath = null },
                         probe = probe,
-                        serverOrigin = serverOrigin,
                     )
                 }
             }
