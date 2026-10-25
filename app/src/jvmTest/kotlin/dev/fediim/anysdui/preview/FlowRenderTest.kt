@@ -21,6 +21,8 @@ import kotlinx.serialization.json.jsonObject
  * holds the expanded composite (`n108_51` with `n108_51__img`).
  */
 class FlowRenderTest {
+    private val roomCatalogId = "urn:anysdui:sample-designsystem:1.0.0"
+
     private fun recordedFrame(): List<JsonObject> {
         val relative = "src/jvmTest/resources/recorded-frame.json"
         val file = listOf(File(relative), File("app/$relative")).first { it.exists() }
@@ -40,7 +42,10 @@ class FlowRenderTest {
         host.apply(
             CreateSurface(
                 surfaceId = "surf_playground",
-                catalogId = "urn:anysdui:sample-designsystem:1.0.0", // the server's room default
+                // The room catalog the server sends as the surface default; a built-ins-only client
+                // does not
+                // hold it, and every node carries its own catalog (not a live capture, L25).
+                catalogId = roomCatalogId,
                 sendDataModel = true,
                 components = components,
                 dataModel = buildJsonObject {},
