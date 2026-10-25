@@ -1,0 +1,999 @@
+{
+    "$defs": {
+        "anyComponent": {
+            "oneOf": [
+                {
+                    "$ref": "#/components/CupertinoActivityIndicator"
+                },
+                {
+                    "$ref": "#/components/CupertinoAlertDialog"
+                },
+                {
+                    "$ref": "#/components/CupertinoButton"
+                },
+                {
+                    "$ref": "#/components/CupertinoSegmentedControl"
+                },
+                {
+                    "$ref": "#/components/CupertinoSlider"
+                },
+                {
+                    "$ref": "#/components/CupertinoSwitch"
+                }
+            ]
+        },
+        "anyFunction": {
+            "oneOf": [
+                {
+                    "$ref": "#/functions/and"
+                },
+                {
+                    "$ref": "#/functions/email"
+                },
+                {
+                    "$ref": "#/functions/formatCurrency"
+                },
+                {
+                    "$ref": "#/functions/formatDate"
+                },
+                {
+                    "$ref": "#/functions/formatNumber"
+                },
+                {
+                    "$ref": "#/functions/formatString"
+                },
+                {
+                    "$ref": "#/functions/length"
+                },
+                {
+                    "$ref": "#/functions/not"
+                },
+                {
+                    "$ref": "#/functions/numeric"
+                },
+                {
+                    "$ref": "#/functions/openUrl"
+                },
+                {
+                    "$ref": "#/functions/or"
+                },
+                {
+                    "$ref": "#/functions/pluralize"
+                },
+                {
+                    "$ref": "#/functions/regex"
+                },
+                {
+                    "$ref": "#/functions/required"
+                },
+                {
+                    "$ref": "#/functions/setTheme"
+                },
+                {
+                    "$ref": "#/functions/setThemeMode"
+                }
+            ]
+        }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "catalogId": "urn:anysdui:compose-cupertino:1.0.0",
+    "components": {
+        "CupertinoActivityIndicator": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "animating": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": true,
+                            "description": "Whether the indicator spins; a stopped indicator is hidden.",
+                            "x-default": "true"
+                        },
+                        "component": {
+                            "const": "CupertinoActivityIndicator"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-cupertino.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the indicator."
+                        }
+                    },
+                    "required": [
+                        "component"
+                    ]
+                }
+            ],
+            "description": "An iOS-style spinning activity indicator.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "animating": {
+                    "@path": "/loading/busy"
+                },
+                "component": "CupertinoActivityIndicator",
+                "id": "root"
+            }
+        },
+        "CupertinoAlertDialog": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "cancelLabel": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "default": "Cancel",
+                            "description": "The text of the cancelling button.",
+                            "x-default": "\"Cancel\""
+                        },
+                        "component": {
+                            "const": "CupertinoAlertDialog"
+                        },
+                        "confirmLabel": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The text of the confirming button."
+                        },
+                        "destructive": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": false,
+                            "description": "Whether the confirming button is drawn as destructive (red).",
+                            "x-default": "false"
+                        },
+                        "message": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The alert message."
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-cupertino.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the trigger; the alert itself exists only while it is open."
+                        },
+                        "onCancel": {
+                            "$ref": "common_types.json#/$defs/Action",
+                            "description": "Action executed when the user cancels.",
+                            "x-default": "{}"
+                        },
+                        "onConfirm": {
+                            "$ref": "common_types.json#/$defs/Action",
+                            "description": "Action executed when the user confirms.",
+                            "x-default": "{}"
+                        },
+                        "title": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The alert title."
+                        },
+                        "trigger": {
+                            "$ref": "common_types.json#/$defs/Child",
+                            "description": "The component that opens the alert when tapped."
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "confirmLabel",
+                        "message",
+                        "title",
+                        "trigger"
+                    ]
+                }
+            ],
+            "description": "An iOS-style alert with a title, a message and two buttons, opened by tapping its trigger.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "cancelLabel": "Cancel",
+                "component": "CupertinoAlertDialog",
+                "confirmLabel": "Delete",
+                "destructive": true,
+                "id": "root",
+                "message": "This cannot be undone.",
+                "onConfirm": {
+                    "event": {
+                        "name": "delete_confirmed"
+                    }
+                },
+                "title": "Delete note?",
+                "trigger": "delete_button"
+            },
+            "x-stateSupport": [
+                "focused",
+                "hovered",
+                "pressed"
+            ]
+        },
+        "CupertinoButton": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "CupertinoButton"
+                        },
+                        "filled": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "default": false,
+                            "description": "Whether the button has a filled background instead of plain tinted text.",
+                            "x-default": "false"
+                        },
+                        "label": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The button text."
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-cupertino.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the button."
+                        },
+                        "onClick": {
+                            "$ref": "common_types.json#/$defs/Action",
+                            "description": "Action executed when the user taps the button."
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "label",
+                        "onClick"
+                    ]
+                }
+            ],
+            "description": "An iOS-style text button.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "CupertinoButton",
+                "filled": true,
+                "id": "root",
+                "label": "Continue",
+                "onClick": {
+                    "event": {
+                        "name": "continue_tapped"
+                    }
+                }
+            },
+            "x-stateSupport": [
+                "focused",
+                "hovered",
+                "pressed"
+            ]
+        },
+        "CupertinoSegmentedControl": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "CupertinoSegmentedControl"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-cupertino.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the control."
+                        },
+                        "options": {
+                            "description": "The segments, each a label and a stable value. At most 6 are drawn.",
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "label": {
+                                        "$ref": "common_types.json#/$defs/DynamicString",
+                                        "description": "The segment text."
+                                    },
+                                    "value": {
+                                        "description": "The stable value of this segment.",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "label",
+                                    "value"
+                                ],
+                                "type": "object"
+                            },
+                            "maxItems": 6,
+                            "minItems": 2,
+                            "type": "array"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The value of the selected segment. Bind it to a string in the data model so a tap writes back."
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "options",
+                        "value"
+                    ]
+                }
+            ],
+            "description": "An iOS-style segmented control: a row of mutually exclusive segments.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "CupertinoSegmentedControl",
+                "id": "root",
+                "options": [
+                    {
+                        "label": "Day",
+                        "value": "day"
+                    },
+                    {
+                        "label": "Week",
+                        "value": "week"
+                    },
+                    {
+                        "label": "Month",
+                        "value": "month"
+                    }
+                ],
+                "value": {
+                    "@path": "/stats/range"
+                }
+            }
+        },
+        "CupertinoSlider": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "CupertinoSlider"
+                        },
+                        "max": {
+                            "description": "The highest value.",
+                            "type": "number"
+                        },
+                        "min": {
+                            "default": 0,
+                            "description": "The lowest value.",
+                            "type": "number"
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-cupertino.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the slider."
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "The current value. Bind it to a number in the data model so a drag writes back."
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "max",
+                        "value"
+                    ]
+                }
+            ],
+            "description": "An iOS-style slider over a number range.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "CupertinoSlider",
+                "id": "root",
+                "max": 100,
+                "min": 0,
+                "value": {
+                    "@path": "/player/volume"
+                }
+            }
+        },
+        "CupertinoSwitch": {
+            "allOf": [
+                {
+                    "$ref": "common_types.json#/$defs/ComponentCommon"
+                },
+                {
+                    "properties": {
+                        "component": {
+                            "const": "CupertinoSwitch"
+                        },
+                        "label": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The text shown next to the switch."
+                        },
+                        "modifier": {
+                            "$ref": "anysdui_types.compose-cupertino.json#/$defs/ModifierOps",
+                            "description": "Layout and styling modifiers to apply to the switch."
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "description": "Whether the switch is on. Bind it to a boolean in the data model so a tap writes back."
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "label",
+                        "value"
+                    ]
+                }
+            ],
+            "description": "An iOS-style on/off switch with a label.",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "x-example": {
+                "component": "CupertinoSwitch",
+                "id": "root",
+                "label": "Wi-Fi",
+                "value": {
+                    "@path": "/settings/wifi"
+                }
+            }
+        }
+    },
+    "description": "iOS-style controls drawn with Compose foundation on every platform.",
+    "functions": {
+        "and": {
+            "description": "Performs a logical AND operation on a list of boolean values.",
+            "properties": {
+                "@call": {
+                    "const": "and"
+                },
+                "args": {
+                    "properties": {
+                        "values": {
+                            "description": "The list of boolean values to evaluate.",
+                            "items": {
+                                "$ref": "common_types.json#/$defs/DynamicBoolean"
+                            },
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "values"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "boolean",
+            "type": "object"
+        },
+        "email": {
+            "description": "Checks that the value is a valid email address.",
+            "properties": {
+                "@call": {
+                    "const": "email"
+                },
+                "args": {
+                    "properties": {
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The string to check as an email address."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "validationResult",
+            "type": "object"
+        },
+        "formatCurrency": {
+            "description": "Formats a number as a currency string.",
+            "properties": {
+                "@call": {
+                    "const": "formatCurrency"
+                },
+                "args": {
+                    "properties": {
+                        "currency": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The ISO 4217 currency code (e.g., 'USD', 'EUR')."
+                        },
+                        "decimals": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "Optional. The number of decimal places to show. Defaults to 0 or 2 depending on locale."
+                        },
+                        "grouping": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "description": "Optional. If true, uses locale-specific grouping separators (e.g. '1,000'). If false, returns raw digits (e.g. '1000'). Defaults to true."
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "The monetary amount."
+                        }
+                    },
+                    "required": [
+                        "currency",
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "string",
+            "type": "object"
+        },
+        "formatDate": {
+            "description": "Formats a timestamp into a string using a pattern.",
+            "properties": {
+                "@call": {
+                    "const": "formatDate"
+                },
+                "args": {
+                    "properties": {
+                        "format": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "A Unicode TR35 date pattern string.\n\nToken Reference:\n- Year: 'yy' (26), 'yyyy' (2026)\n- Month: 'M' (1), 'MM' (01), 'MMM' (Jan), 'MMMM' (January)\n- Day: 'd' (1), 'dd' (01), 'E' (Tue), 'EEEE' (Tuesday)\n- Hour (12h): 'h' (1-12), 'hh' (01-12) - requires 'a' for AM/PM\n- Hour (24h): 'H' (0-23), 'HH' (00-23) - Military Time\n- Minute: 'mm' (00-59)\n- Second: 'ss' (00-59)\n- Period: 'a' (AM/PM)\n\nExamples:\n- 'MMM dd, yyyy' -> 'Jan 16, 2026'\n- 'HH:mm' -> '14:30' (Military)\n- 'h:mm a' -> '2:30 PM'\n- 'EEEE, d MMMM' -> 'Friday, 16 January'"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicValue",
+                            "description": "The date to format."
+                        }
+                    },
+                    "required": [
+                        "format",
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "string",
+            "type": "object"
+        },
+        "formatNumber": {
+            "description": "Formats a number with the specified grouping and decimal precision.",
+            "properties": {
+                "@call": {
+                    "const": "formatNumber"
+                },
+                "args": {
+                    "properties": {
+                        "decimals": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "Optional. The number of decimal places to show. Defaults to 0 or 2 depending on locale."
+                        },
+                        "grouping": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "description": "Optional. If true, uses locale-specific grouping separators (e.g. '1,000'). If false, returns raw digits (e.g. '1000'). Defaults to true."
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "The number to format."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "string",
+            "type": "object"
+        },
+        "formatString": {
+            "description": "Performs string interpolation of data model values and other functions in the catalog functions list and returns the resulting string. The value string can contain interpolated expressions in the `${expression}` format. Supported expression types include: JSON Pointer paths to the data model (e.g., `${/absolute/path}` or `${relative/path}`), and renderer-side function calls (e.g., `${now()}`). Function arguments must be named (e.g., `${formatDate(value:${/currentDate}, format:'MM-dd')}`). To include a literal `${` sequence, escape it as `\\${`. An expression can also be a literal: a quoted string (`'text'` or `\"text\"`), a number (e.g., `-3.14`), `true` or `false`.",
+            "properties": {
+                "@call": {
+                    "const": "formatString"
+                },
+                "args": {
+                    "properties": {
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The template: text with embedded `${expression}` parts, where an expression is a JSON Pointer path, a literal (quoted string, number, `true` or `false`) or a function call with named arguments. Expressions nest, and `\\${` is a literal `${`."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "string",
+            "type": "object"
+        },
+        "length": {
+            "description": "Checks string length constraints.",
+            "properties": {
+                "@call": {
+                    "const": "length"
+                },
+                "args": {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "min"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "max"
+                            ]
+                        }
+                    ],
+                    "properties": {
+                        "max": {
+                            "description": "The maximum allowed length.",
+                            "minimum": 0,
+                            "type": "integer"
+                        },
+                        "min": {
+                            "description": "The minimum allowed length.",
+                            "minimum": 0,
+                            "type": "integer"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The string whose length is checked."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "validationResult",
+            "type": "object"
+        },
+        "not": {
+            "description": "Performs a logical NOT operation on a boolean value.",
+            "properties": {
+                "@call": {
+                    "const": "not"
+                },
+                "args": {
+                    "properties": {
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicBoolean",
+                            "description": "The boolean value to negate."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "boolean",
+            "type": "object"
+        },
+        "numeric": {
+            "description": "Checks numeric range constraints.",
+            "properties": {
+                "@call": {
+                    "const": "numeric"
+                },
+                "args": {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "min"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "max"
+                            ]
+                        }
+                    ],
+                    "properties": {
+                        "max": {
+                            "description": "The maximum allowed value.",
+                            "type": "number"
+                        },
+                        "min": {
+                            "description": "The minimum allowed value.",
+                            "type": "number"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "The number whose range is checked."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "validationResult",
+            "type": "object"
+        },
+        "openUrl": {
+            "allowedCallers": "rendererOnly",
+            "description": "Opens the specified URL in a browser or handler (requires user activation). This function has no return value.",
+            "properties": {
+                "@call": {
+                    "const": "openUrl"
+                },
+                "args": {
+                    "properties": {
+                        "url": {
+                            "description": "The URL to open.",
+                            "oneOf": [
+                                {
+                                    "format": "uri",
+                                    "type": "string"
+                                },
+                                {
+                                    "$ref": "common_types.json#/$defs/DataBinding"
+                                },
+                                {
+                                    "$ref": "common_types.json#/$defs/FunctionCall"
+                                }
+                            ]
+                        }
+                    },
+                    "required": [
+                        "url"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "requiresUserActivation": true,
+            "returnType": "void",
+            "type": "object"
+        },
+        "or": {
+            "description": "Performs a logical OR operation on a list of boolean values.",
+            "properties": {
+                "@call": {
+                    "const": "or"
+                },
+                "args": {
+                    "properties": {
+                        "values": {
+                            "description": "The list of boolean values to evaluate.",
+                            "items": {
+                                "$ref": "common_types.json#/$defs/DynamicBoolean"
+                            },
+                            "minItems": 2,
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "values"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "boolean",
+            "type": "object"
+        },
+        "pluralize": {
+            "description": "Returns a localized string based on the Common Locale Data Repository (CLDR) plural category of the count (zero, one, two, few, many, other). Requires an 'other' fallback. For English, just use 'one' and 'other'.",
+            "properties": {
+                "@call": {
+                    "const": "pluralize"
+                },
+                "args": {
+                    "properties": {
+                        "few": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "String for the 'few' category (e.g., small groups in Slavic languages)."
+                        },
+                        "many": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "String for the 'many' category (e.g., large groups in various languages)."
+                        },
+                        "one": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "String for the 'one' category (e.g., 1 item)."
+                        },
+                        "other": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The default/fallback string (used for general plural cases)."
+                        },
+                        "two": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "String for the 'two' category (used in Arabic, Welsh, etc.)."
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicNumber",
+                            "description": "The numeric value used to determine the plural category."
+                        },
+                        "zero": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "String for the 'zero' category (e.g., 0 items)."
+                        }
+                    },
+                    "required": [
+                        "value",
+                        "other"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "string",
+            "type": "object"
+        },
+        "regex": {
+            "description": "Checks that the value matches a regular expression string.",
+            "properties": {
+                "@call": {
+                    "const": "regex"
+                },
+                "args": {
+                    "properties": {
+                        "pattern": {
+                            "description": "The regex pattern to match against.",
+                            "type": "string"
+                        },
+                        "value": {
+                            "$ref": "common_types.json#/$defs/DynamicString",
+                            "description": "The string to test against the pattern."
+                        }
+                    },
+                    "required": [
+                        "value",
+                        "pattern"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "validationResult",
+            "type": "object"
+        },
+        "required": {
+            "description": "Checks that the value is not null, undefined, or empty.",
+            "properties": {
+                "@call": {
+                    "const": "required"
+                },
+                "args": {
+                    "properties": {
+                        "value": {
+                            "description": "The value to check."
+                        }
+                    },
+                    "required": [
+                        "value"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "returnType": "validationResult",
+            "type": "object"
+        },
+        "setTheme": {
+            "allowedCallers": "agentOnly",
+            "description": "Sets or updates the active theme on the target surface.",
+            "properties": {
+                "@call": {
+                    "const": "setTheme"
+                },
+                "args": {
+                    "properties": {
+                        "surfaceId": {
+                            "description": "Optional target surface ID. Defaults to current surface.",
+                            "type": "string"
+                        },
+                        "theme": {
+                            "$ref": "anysdui_types.compose-cupertino.json#/$defs/ThemeSpec",
+                            "description": "The ThemeSpec to apply."
+                        }
+                    },
+                    "required": [
+                        "theme"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "requiresUserActivation": false,
+            "returnType": "void",
+            "type": "object"
+        },
+        "setThemeMode": {
+            "allowedCallers": "agentOnly",
+            "description": "Switches the theme mode of the target surface between light, dark, or system.",
+            "properties": {
+                "@call": {
+                    "const": "setThemeMode"
+                },
+                "args": {
+                    "properties": {
+                        "mode": {
+                            "description": "Target theme mode: 'light', 'dark', or 'system'.",
+                            "enum": [
+                                "light",
+                                "dark",
+                                "system"
+                            ],
+                            "type": "string"
+                        },
+                        "surfaceId": {
+                            "description": "Optional target surface ID. Defaults to current surface.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "mode"
+                    ],
+                    "type": "object",
+                    "unevaluatedProperties": false
+                }
+            },
+            "required": [
+                "@call",
+                "args"
+            ],
+            "requiresUserActivation": false,
+            "returnType": "void",
+            "type": "object"
+        }
+    },
+    "instructions": "Cupertino components draw iOS-style controls on every platform. Bind a control's current value with {\"@path\": \"/settings/wifi\"} (RFC 6901, leading slash) so user input writes back to the data model; send initial values in updateDataModel. Use CupertinoAlertDialog for a confirm-or-cancel question, opened by its trigger child; tapping the trigger opens the alert and also runs the trigger's own action. Prefer these components when the surface should look native on iOS; mix them with basic components only where no Cupertino counterpart exists. A segmented control draws at most 6 segments; the rest are cut and reported. A slider whose max is not above its min is drawn from 0 to 1.",
+    "protocolVersion": "1.0",
+    "title": "Cupertino"
+}

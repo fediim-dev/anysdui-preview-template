@@ -1,0 +1,8 @@
+// PREVIEW_HOST, TEAM_ID and PRODUCT_BUNDLE_IDENTIFIER come from the preview Gradle properties.
+// Generate the file once with ./gradlew :app:generateIosConfig (it is gitignored).
+#include "Preview.generated.xcconfig"
+
+PRODUCT_NAME=AnySDUIPreview
+
+CURRENT_PROJECT_VERSION=1
+MARKETING_VERSION=1.0
