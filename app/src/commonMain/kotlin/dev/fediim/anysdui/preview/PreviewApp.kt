@@ -54,8 +54,22 @@ private const val CODE_REFUSED = "That is not a pairing code."
  * process death or rotation, never stored, never logged. [Invariant] The socket always opens to the
  * configured origin.
  */
+@OptIn(PreviewTestHook::class)
 @Composable
 fun PreviewApp(initialLink: String?) {
+    PreviewApp(initialLink, probe = null, serverOrigin = PreviewConfig.SERVER_ORIGIN)
+}
+
+/** [PreviewApp] with [probe] filled in as the room screen runs; for tests only. */
+@PreviewTestHook
+@Composable
+fun PreviewApp(initialLink: String?, probe: RoomProbe) {
+    PreviewApp(initialLink, probe, serverOrigin = PreviewConfig.SERVER_ORIGIN)
+}
+
+@OptIn(PreviewTestHook::class)
+@Composable
+private fun PreviewApp(initialLink: String?, probe: RoomProbe?, serverOrigin: String) {
     var socketPath by remember {
         mutableStateOf(
             initialLink?.let { shareLinkOf(it, PreviewConfig.SERVER_ORIGIN)?.socketPath }
@@ -91,7 +105,12 @@ fun PreviewApp(initialLink: String?) {
                         },
                     )
                 } else {
-                    RoomScreen(path, onLeave = { socketPath = null })
+                    RoomScreen(
+                        path,
+                        onLeave = { socketPath = null },
+                        probe = probe,
+                        serverOrigin = serverOrigin,
+                    )
                 }
             }
         }
@@ -127,8 +146,20 @@ private fun JoinScreen(notice: String?, onCode: (String) -> Unit, onLink: (Strin
     }
 }
 
+/**
+ * The room: its live surface and the Follow / Explore toggle.
+ *
+ * [Invariant] Once the room has ended (refused or closed by the server), the transport is closed,
+ * so it never reconnects; the user leaves and joins again.
+ */
+@OptIn(PreviewTestHook::class)
 @Composable
-private fun RoomScreen(socketPath: String, onLeave: () -> Unit) {
+internal fun RoomScreen(
+    socketPath: String,
+    onLeave: () -> Unit,
+    probe: RoomProbe? = null,
+    serverOrigin: String = PreviewConfig.SERVER_ORIGIN,
+) {
     var ended by remember(socketPath) { mutableStateOf<String?>(null) }
     var connection by
         remember(socketPath) {
@@ -141,30 +172,37 @@ private fun RoomScreen(socketPath: String, onLeave: () -> Unit) {
             var started = false
             previewTransport(
                 socketPath = socketPath,
+                serverOrigin = serverOrigin,
                 catalogIds = registrations.map { it.catalogId },
                 onMessageSent = { message -> mode = modeAfterSent(message, mode) },
                 onStateChanged = { state ->
                     connection = state
+                    probe?.connection = state
                     mode = modeAfter(state, mode)
                     when (state) {
                         is WebSocketConnectionState.Failed ->
-                            ended = roomEndedText(socketPath, state.error)
+                            ended = roomEndedText(socketPath).also { probe?.ended = it }
                         WebSocketConnectionState.Disconnected ->
-                            if (started) ended = roomEndedText(socketPath, null)
+                            if (started)
+                                ended = roomEndedText(socketPath).also { probe?.ended = it }
                         else -> started = true
                     }
                 },
             )
         }
     DisposableEffect(transport) { onDispose { transport.close() } }
+    // An ended room stays ended: stop the transport's own reconnect loop.
+    LaunchedEffect(ended) { if (ended != null) transport.close() }
     val host =
         remember(transport) {
             SurfaceHost(
-                registrations = registrations,
-                transport = transport,
-                allowFallbackToFirstComponentAsRoot = true,
-                limits = SurfaceHostLimits(maxComponentsPerSurface = PreviewConfig.MAX_COMPONENTS),
-            )
+                    registrations = registrations,
+                    transport = transport,
+                    allowFallbackToFirstComponentAsRoot = true,
+                    limits =
+                        SurfaceHostLimits(maxComponentsPerSurface = PreviewConfig.MAX_COMPONENTS),
+                )
+                .also { probe?.host = it }
         }
     LaunchedEffect(host, transport) {
         transport.incoming.collect { message -> host.apply(message) }
@@ -219,15 +257,13 @@ private fun RoomScreen(socketPath: String, onLeave: () -> Unit) {
 
 /**
  * What the room screen says once its socket is refused or closed. A share-link socket says the link
- * is no longer valid, as the server's own viewer does; a pairing-code socket names the server's
- * reason, such as a catalog mismatch, so a wrong build is not mistaken for an expired link.
+ * is no longer valid, as the server's own viewer does. After `helloAck` the transport reports every
+ * server close alike, so a pairing-code socket cannot say why: the server may have refused this app
+ * (for example a catalog mismatch) or closed the connection.
  */
-internal fun roomEndedText(socketPath: String, error: String?): String =
-    when {
-        "viewId=" in socketPath -> "This link is no longer valid"
-        error.isNullOrBlank() -> "The room closed the connection."
-        else -> "Could not join the room: $error"
-    }
+internal fun roomEndedText(socketPath: String): String =
+    if ("viewId=" in socketPath) "This link is no longer valid"
+    else "The room refused this app or closed the connection."
 
 /**
  * Images load from the server origin only, resolving the server's root-relative image paths against
@@ -247,10 +283,11 @@ private fun imageSourcePolicy(): ImageSourcePolicy {
 internal fun previewTransport(
     socketPath: String,
     catalogIds: List<String>,
+    serverOrigin: String = PreviewConfig.SERVER_ORIGIN,
     onMessageSent: (dev.fediim.anysdui.protocol.A2uiMessage) -> Unit,
     onStateChanged: (WebSocketConnectionState) -> Unit,
 ): WebSocketTransport {
-    val origin = checkNotNull(httpOriginOf(PreviewConfig.SERVER_ORIGIN)) { "serverOrigin" }
+    val origin = checkNotNull(httpOriginOf(serverOrigin)) { "serverOrigin" }
     return WebSocketTransport(
         host = origin.host,
         port = origin.port,

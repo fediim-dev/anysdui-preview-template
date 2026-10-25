@@ -43,8 +43,8 @@ class FlowRenderTest {
             CreateSurface(
                 surfaceId = "surf_playground",
                 // The room catalog the server sends as the surface default; a built-ins-only client
-                // does not
-                // hold it, and every node carries its own catalog (not a live capture, L25).
+                // does not hold it, and every node carries its own catalog (not a live capture,
+                // L25).
                 catalogId = roomCatalogId,
                 sendDataModel = true,
                 components = components,

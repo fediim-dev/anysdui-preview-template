@@ -127,14 +127,10 @@ class ShareLinkTest {
     }
 
     @Test
-    fun aRefusedCodeJoinNamesTheReasonAndOnlyALinkSaysItIsNoLongerValid() {
+    fun onlyALinkSaysItIsNoLongerValid() {
         val linkPath = "/a2ui?scenario=playground&viewId=$viewId&exp=1893456000&sig=$sig"
         val codePath = assertNotNull(pairingSocketPath("abcd-1234_EF"))
-        assertEquals("This link is no longer valid", roomEndedText(linkPath, "Link not valid"))
-        assertEquals(
-            "Could not join the room: Catalog ID mismatch",
-            roomEndedText(codePath, "Catalog ID mismatch"),
-        )
-        assertEquals("The room closed the connection.", roomEndedText(codePath, null))
+        assertEquals("This link is no longer valid", roomEndedText(linkPath))
+        assertEquals("The room refused this app or closed the connection.", roomEndedText(codePath))
     }
 }
