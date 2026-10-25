@@ -69,7 +69,7 @@ jobs:
           :webApp:wasmJsBrowserDistribution
         env:
           GITHUB_ACTOR: ${{ github.actor }}
-          ANYSDUI_PACKAGES_TOKEN: ${{ secrets.ANYSDUI_PACKAGES_TOKEN }}
+          ANYSDUI_PACKAGES_TOKEN: ${{ steps.pin.outputs.snapshot == 'false' && secrets.ANYSDUI_PACKAGES_TOKEN || '' }}
 
   ios:
     name: iOS
@@ -118,7 +118,7 @@ jobs:
         run: ./gradlew --console=plain :app:generateIosConfig :app:linkDebugFrameworkIosSimulatorArm64
         env:
           GITHUB_ACTOR: ${{ github.actor }}
-          ANYSDUI_PACKAGES_TOKEN: ${{ secrets.ANYSDUI_PACKAGES_TOKEN }}
+          ANYSDUI_PACKAGES_TOKEN: ${{ steps.pin.outputs.snapshot == 'false' && secrets.ANYSDUI_PACKAGES_TOKEN || '' }}
 
       - name: Build the iOS app for the simulator
         run: >
@@ -127,4 +127,4 @@ jobs:
           CODE_SIGNING_ALLOWED=NO build
         env:
           GITHUB_ACTOR: ${{ github.actor }}
-          ANYSDUI_PACKAGES_TOKEN: ${{ secrets.ANYSDUI_PACKAGES_TOKEN }}
+          ANYSDUI_PACKAGES_TOKEN: ${{ steps.pin.outputs.snapshot == 'false' && secrets.ANYSDUI_PACKAGES_TOKEN || '' }}

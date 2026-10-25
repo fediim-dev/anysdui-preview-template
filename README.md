@@ -93,7 +93,7 @@ The AnySDUI artifacts are on GitHub Packages (Maven) in the private repository
 
 While `anysdui.version` is a snapshot, CI instead checks out anysdui-kmp at `anysdui.sourceCommit` and
 publishes it to mavenLocal. That needs a separate credential, the secret `ANYSDUI_SOURCE_TOKEN` (a
-fine-grained token with Contents: read on anysdui-kmp only, or a read-only deploy key). It goes away
+fine-grained token with Contents: read on anysdui-kmp only). It goes away
 at the first AnySDUI release, together with that step of `.github/workflows/build.yml`. Maven Central
 distribution is planned and will remove the need for a token.
 
@@ -140,8 +140,8 @@ tcp:8081` for an Android emulator): loopback over http is allowed only in debug 
 a pull request. It starts on a `repository_dispatch` event of type `anysdui-release` (payload
 `version` and `commit`) or by hand (Actions, "bump-anysdui", Run workflow). It validates both values
 (`MAJOR.MINOR.PATCH` and a 40-character hex commit) before using them. A pull request opened with
-the workflow's `GITHUB_TOKEN` does not start the build workflow: run `build` by hand on the bump pull
-request, then merge it.
+the workflow's `GITHUB_TOKEN` does not start the build workflow: push an empty commit to the bump
+branch, or close and reopen the pull request, to start `build.yml`, then merge it.
 
 ## Security notes
 
